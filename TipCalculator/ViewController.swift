@@ -8,11 +8,6 @@
 
 import UIKit
 
-struct Settings {
-    static let tipPercentages = [0.18, 0.2, 0.22]
-    static var defaultIndex = 0
-}
-
 class ViewController: UIViewController {
                             
     @IBOutlet weak var billField: UITextField!
@@ -23,19 +18,29 @@ class ViewController: UIViewController {
     var billAmount = 0.0
     var tipAmount = 0.0
     var totalAmount = 0.0
-    let saveBillFor :NSTimeInterval = -(10*60)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        tipLabel.text = String(format: "$%.2f", tipAmount)
-        totalLabel.text = String(format: "$%.2f", totalAmount)
+        var formatter = NSNumberFormatter()
+        formatter.locale = NSLocale.currentLocale()
+        formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+        println(formatter.stringFromNumber(10000))
+        
+        //tipLabel.text = String(format: "%@%.2f", formatter.currencySymbol, tipAmount)
+        //totalLabel.text = String(format: "%@%.2f", formatter.currencySymbol, totalAmount)
+        
+        tipLabel.text = formatter.stringFromNumber(tipAmount)
+        totalLabel.text = formatter.stringFromNumber(totalAmount)
         
         for (index, value) in enumerate(Settings.tipPercentages) {
             var amount = String (format: "%.0f%%", value*100)
             tipChooser.setTitle (amount, forSegmentAtIndex: index)
         }
+
+        
+        println("locale: \(formatter.currencySymbol)")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -63,10 +68,14 @@ class ViewController: UIViewController {
         super.viewWillDisappear(animated)
         //println("view will disappear")
         
+        /*
         var defaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(billField.text, forKey: "BillField")
         defaults.setObject(NSDate(), forKey: "BillLastSet")
         defaults.synchronize()
+        */
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -83,8 +92,15 @@ class ViewController: UIViewController {
         tipAmount = billAmount * tipPercentage
         totalAmount = billAmount + tipAmount
         
-        tipLabel.text = String(format: "$%.2f", tipAmount)
-        totalLabel.text = String(format: "$%.2f", totalAmount)
+        var formatter = NSNumberFormatter()
+        formatter.locale = NSLocale.currentLocale()
+        formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+
+        tipLabel.text = formatter.stringFromNumber(tipAmount)
+        totalLabel.text = formatter.stringFromNumber(totalAmount)
+        
+        //tipLabel.text = String(format: "%@%.2f", formatter.currencySymbol, tipAmount)
+        //totalLabel.text = String(format: "%@%.2f", formatter.currencySymbol, totalAmount)
         
     }
 
