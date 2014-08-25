@@ -13,9 +13,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             
     var window: UIWindow?
 
-
     func application(application: UIApplication!, didFinishLaunchingWithOptions launchOptions: NSDictionary!) -> Bool {
         // Override point for customization after application launch.
+        
+        self.window?.tintColor = tintColor
+        var defaults = NSUserDefaults.standardUserDefaults()
+        
+        let billLastSet :NSDate? = defaults.objectForKey("BillLastSet") as? NSDate
+        let lastTipIndex :Int? = defaults.integerForKey("LastTipIndex")
+        let lastBillAmount :String? = defaults.objectForKey("LastBillAmount") as? String
+        
+        // If the bill's not been saved or if it's longer than the save period (10 min), clear state
+        if (billLastSet == nil || billLastSet?.timeIntervalSinceNow <= saveBillFor) {
+            Settings.cleanStart = true
+        }
+        else {
+            if (lastBillAmount != nil) {
+                Settings.lastBillAmount = lastBillAmount!
+            }
+            if (lastTipIndex != nil) {
+                Settings.lastTipIndex = lastTipIndex!
+            }
+            Settings.cleanStart = false
+        }
+
+
+        println("LastBillAmount:")
+        //var timeInterval = (defaults.objectForKey("BillLastSet") as NSDate).timeIntervalSinceNow
+        println(defaults.objectForKey("LastBillAmount"))
+        println(defaults.objectForKey("BillLastSet"))
+        println(billLastSet?.timeIntervalSinceNow)
+        println(billLastSet == nil)
+        println(billLastSet?.timeIntervalSinceNow >= -500)
+        println(defaults.objectForKey("LastTipIndex"))
+        println(Settings.lastTipIndex)
+        
         return true
     }
 
@@ -28,31 +60,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
-        println("application did enter background")
         var defaults = NSUserDefaults.standardUserDefaults()
-       
-        let storyboard = UIStoryboard(name: "Main", bundle:nil)
-        //let viewController = storyboard.instantiateViewControllerWithIdentifier("appView") as ViewController
-        var viewController = ViewController()
-        
-        let root = self.window?.rootViewController as UINavigationController
-        
-        for controller in root.viewControllers {
-            if (controller.isKindOfClass(ViewController)) {
-                viewController = controller as ViewController
-            }
-        }
-        
-        if (viewController.billField != nil) {
-            defaults.setObject(viewController.billField.text, forKey: "BillField")
+        if (Settings.lastBillAmount != "") {
+            defaults.setObject(Settings.lastBillAmount, forKey: "LastBillAmount")
             defaults.setObject(NSDate(), forKey: "BillLastSet")
+            defaults.setInteger(Settings.lastTipIndex, forKey: "LastTipIndex")
             defaults.synchronize()
+        }
+        else {
+            defaults.removeObjectForKey("LastBillAmount")
+            defaults.removeObjectForKey("BillLastSet")
         }
 
     }
 
     func applicationWillEnterForeground(application: UIApplication!) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+
     }
 
     func applicationDidBecomeActive(application: UIApplication!) {
