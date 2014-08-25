@@ -25,7 +25,6 @@ class MainViewController: UIViewController {
     var tipAmount = 0.0
     var totalAmount = 0.0
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -42,7 +41,6 @@ class MainViewController: UIViewController {
         }
         
         billField.text = Settings.lastBillAmount
-        
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -71,14 +69,12 @@ class MainViewController: UIViewController {
         onEditingChanged(self)
     }
     
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     @IBAction func onTouchDownBillField(sender: AnyObject) {
-    
         if (Settings.cleanStart) {
             UIView.animateWithDuration(0.4, animations: {
                 // This causes first view to fade in and second view to fade out
@@ -100,7 +96,6 @@ class MainViewController: UIViewController {
     @IBAction func onEditingChanged(sender: AnyObject) {
         
         var tipPercentage = tipPercentages[tipChooser.selectedSegmentIndex]
-        
         billAmount = billField.text._bridgeToObjectiveC().doubleValue
         tipAmount = billAmount * tipPercentage
         totalAmount = billAmount + tipAmount
@@ -111,7 +106,6 @@ class MainViewController: UIViewController {
         Settings.lastTipIndex = tipChooser.selectedSegmentIndex
         
         tipLabel.text = tipChooser.titleForSegmentAtIndex(tipChooser.selectedSegmentIndex) + " TIP"
- 
     }
 
     @IBAction func onTap(sender: AnyObject) {
@@ -135,12 +129,10 @@ class MainViewController: UIViewController {
         var size2 = CGSize(width: self.billField.frame.width, height: 140)
         
         self.billCurrencyLabel.frame = CGRect(origin: origin1,size: size1)
-        
         self.billField.frame = CGRect(origin: origin2,size: size2)
     }
     
     func formatCurrency(amount :Double, withSymbol :Bool) -> String {
-        
         var formatter = NSNumberFormatter()
         formatter.locale = NSLocale.currentLocale()
         formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
@@ -148,7 +140,6 @@ class MainViewController: UIViewController {
         if (withSymbol == false) {
             formatter.currencySymbol = ""
         }
-        
         return formatter.stringFromNumber(amount)
     }
     
@@ -159,7 +150,7 @@ class MainViewController: UIViewController {
     }
     
     func changeColor() {
-        //Light theme
+        //Light Theme
         if (Settings.theme == 0) {
             mainView.backgroundColor = lightBackgroundColor
             billCurrencyLabel.textColor = darkTextColor
@@ -173,6 +164,7 @@ class MainViewController: UIViewController {
             self.navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: darkTextColor] as NSDictionary
             billField.keyboardAppearance = UIKeyboardAppearance.Light
         }
+        //Dark theme
         else {
             mainView.backgroundColor = darkBackgroundColor
             billCurrencyLabel.textColor = lightTextColor
@@ -185,12 +177,6 @@ class MainViewController: UIViewController {
             self.navigationController.navigationBar.barTintColor = darkBackgroundColor
             self.navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: lightTextColor] as NSDictionary
             billField.keyboardAppearance = UIKeyboardAppearance.Dark
-            
-            
-            //UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.BlackOpaque, animated: false);
-
         }
     }
-
-
 }

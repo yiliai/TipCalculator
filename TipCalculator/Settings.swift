@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-let saveBillFor :NSTimeInterval = -(1*60)
+let saveBillFor :NSTimeInterval = -(10*60)
 let tipPercentages = [0.18, 0.2, 0.22]
 
 let darkBackgroundColor = UIColorFromRGB(0x444444)

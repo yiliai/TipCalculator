@@ -66,7 +66,6 @@ class SettingsViewController: UIViewController {
         changeColor()
     }
     
-
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
     }
@@ -96,7 +95,6 @@ class SettingsViewController: UIViewController {
         }
         tipDefaultPicker.reloadAllComponents()
     }
-
 }
 
 
@@ -139,7 +137,5 @@ extension SettingsViewController: UIPickerViewDelegate {
              inComponent component: Int) {
 
         Settings.lastTipIndex = row
-
     }
-
 }

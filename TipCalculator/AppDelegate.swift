@@ -36,17 +36,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             Settings.cleanStart = false
         }
-
-
-        println("LastBillAmount:")
-        //var timeInterval = (defaults.objectForKey("BillLastSet") as NSDate).timeIntervalSinceNow
-        println(defaults.objectForKey("LastBillAmount"))
-        println(defaults.objectForKey("BillLastSet"))
-        println(billLastSet?.timeIntervalSinceNow)
-        println(billLastSet == nil)
-        println(billLastSet?.timeIntervalSinceNow >= -500)
-        println(defaults.objectForKey("LastTipIndex"))
-        println(Settings.lastTipIndex)
         
         return true
     }
