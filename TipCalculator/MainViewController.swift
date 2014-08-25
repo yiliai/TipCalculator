@@ -28,7 +28,6 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         tipAmountLabel.text = formatCurrency(tipAmount, withSymbol: true)
         totalAmountLabel.text = formatCurrency(totalAmount, withSymbol: false)
         billCurrencyLabel.text = currencySymbol()
